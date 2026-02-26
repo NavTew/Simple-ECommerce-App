@@ -31,4 +31,47 @@ public class ProductService {
         product.setImageData(imageFile.getBytes());
         return productRepo.save(product);
     }
+
+    public Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException {
+
+        Product existing = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        existing.setName(product.getName());
+        existing.setPrice(product.getPrice());
+        existing.setImageData(imageFile.getBytes());
+        existing.setImageName(imageFile.getOriginalFilename());
+        existing.setImageType(imageFile.getContentType());
+
+        return productRepo.save(existing);
+    }
+
+
+
+/*
+    public Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException {
+        product.setImageData(imageFile.getBytes());
+        product.setImageName(imageFile.getOriginalFilename());
+        product.setImageType(imageFile.getContentType());
+        return productRepo.save(product);
+
+    }
+    It’s working like update because of how productRepo.save(product)
+    works in Spring Boot (actually Spring Data JPA).
+
+            🔹 How save() decides: Insert vs Update
+
+              save() checks the primary key (id) of the entity.
+
+      ✅ If id == null → INSERT
+
+      ✅ If id != null and exists in DB → UPDATE
+
+*/
+
+    public void deleteProduct(int id) {
+
+        productRepo.deleteById(id);
+
+    }
 }
