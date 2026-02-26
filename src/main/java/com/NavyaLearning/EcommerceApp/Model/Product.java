@@ -26,7 +26,7 @@ public class Product {
     private String brand;
     private BigDecimal price;
     private String category;
-    private Date releaseData;
+    private Date releaseDate;
     private boolean available;
     private int quantity;
 }
